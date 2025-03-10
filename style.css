@@ -29,6 +29,10 @@ a:hover {
     text-decoration: underline;
 }
 
+img {
+    max-width: 95%;
+}
+
 header {
     align-self: flex-start;
     text-align: center;
@@ -133,6 +137,10 @@ p {
     margin-top: 30px;
     font-size: 1rem;
     color: #aaa; 
+}
+
+article div {
+    margin: 0 0 18px;
 }
 
 /* 結果表示画面 */
