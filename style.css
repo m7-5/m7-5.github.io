@@ -1,4 +1,11 @@
-body, h1, h2, p, div, a, header, article {
+body,
+h1,
+h2,
+p,
+div,
+a,
+header,
+article {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -8,21 +15,22 @@ body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
     color: #fff;
-    background-color: #121212; 
+    background-color: #121212;
     padding: 20px;
     display: flex;
     flex-direction: column;
     margin: 0;
     justify-content: flex-start;
     align-items: center;
-    max-width: 960px;
+    max-width: 1080px;
     margin: auto;
     min-height: 100vh;
 }
 
-a, a:visited {
+a,
+a:visited {
     color: #fff;
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 a:hover {
@@ -47,35 +55,39 @@ header h1 {
     padding-bottom: 4px;
 }
 
+header a {
+    text-decoration: none;
+}
+
 article {
-    background-color: #1f1f1f; 
+    background-color: #1f1f1f;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6); 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
     padding: 6px 24px 30px;
     width: 100%;
     margin: 4px;
-    text-align: left; 
+    text-align: left;
 }
 
 select {
-    border: 1px solid #fff ;
+    border: 1px solid #fff;
     border-radius: 1rem;
     background: rgba(0, 0, 0, 0);
     color: #fff;
     margin: 0.1rem;
     padding: 0.2rem;
     height: 1.5rem;
-    max-width: 54vw;
+    max-width: min(48vw, 24rem);
 }
 
 option {
     color: #fff;
     background: #111;
-    max-width: 54vw;
+    max-width: min(48vw, 24rem);
 }
 
 button {
-    border: 1px solid #fff ;
+    border: 1px solid #fff;
     border-radius: 1rem;
     background: #fff;
     color: #000;
@@ -104,7 +116,7 @@ p {
 
 .p p {
     font-size: 1.2rem;
-    color: #ccc; 
+    color: #ccc;
 }
 
 
@@ -118,17 +130,17 @@ p {
     display: block;
     text-decoration: none;
     font-size: 1.2rem;
-    color: #121212; 
-    background-color: #fff; 
+    color: #121212;
+    background-color: #fff;
     border: none;
     padding: 12px 20px;
     border-radius: 5px;
-    text-align: center; 
+    text-align: center;
 }
 
 #menu div a:hover {
-    background-color: #e0e0e0; 
-    color: #000; 
+    background-color: #e0e0e0;
+    color: #000;
     transform: scale(1.04);
 }
 
@@ -136,7 +148,7 @@ p {
 .comment {
     margin-top: 30px;
     font-size: 1rem;
-    color: #aaa; 
+    color: #aaa;
 }
 
 article div {
@@ -145,47 +157,101 @@ article div {
 
 /* 結果表示画面 */
 
+#back,
+#result,
+#error {
+    display: none;
+}
+
+#similarity-block,
+#back {
+    margin: 0.2rem 0.4rem;
+}
+
+#result-song1,
+#result-song2,
+#song1-info ,
+#song2-info ,
+.result-song {
+    background-color: #333;
+    padding: 0.8rem 0.8rem 0.6rem;
+    margin: 0.6rem 0;
+    border-radius: 0.4rem;
+}
+
+div.result-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1rem;
+}
+
+.result-song {
+    width: calc(50% - 0.5rem);
+    min-width: min(100%, 480px);
+}
+
+#result-song1 div,
+#result-song2 div,
+#song1-info div ,
+#song2-info div ,
+.result-song div {
+    margin: 0;
+}
+
 #result .head {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    margin: 0.4rem 0.1rem;
-  }
+    margin: 0;
+}
 
-  .title {
+.title {
     font-size: 1.2rem;
-  }
+    max-width: 60%;
+    margin: 0;
+}
 
-  .slash {
+.slash {
     padding: 0.2rem;
-  }
+}
 
-  .artist {
+.artist {
     margin-right: 0.2rem;
-  }
+}
 
-  .chord-block {
+.chord-block {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    margin: 0.4rem 0.1rem;
-  }
+    margin: 0.2rem 0;
+}
 
-  .progression {
+.progression {
     font-size: 1.2rem;
-  }
+}
 
-  .key {
-    margin-left: 0.4rem;
-  }
+.key {
+    margin-left: 0.8rem;
+}
 
-  .rank-block {
+.rank-block {
     /* display: flex; */
-    display: none;
-    margin: 0.4rem 0.1rem;
-  }
+    margin: 0.2rem 0;
+}
 
-@media (max-width: 800px) {
+hr {
+    color: #ccc;
+}
+
+.similarity {
+    display: inline;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+@media (max-width: 960px) {
     header h1 {
         font-size: 2rem;
     }

@@ -7,45 +7,13 @@
     <title>Chordflow</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        #back,
-        #result,
-        #error {
-            display: none;
-        }
-
-        #similarity-block,
-        #back {
-            margin: 0.2rem 0.4rem;
-        }
-
-        #song1-info ,
-        .result-song {
-            background-color: #333;
-            padding: 0.8rem 0.4rem 0.6rem;
-            margin: 0.6rem 0;
-            border-radius: 0.4rem;
-        }
-
-        hr {
-            color: #ccc;
-        }
-
-        .similarity {
-            display: inline;
-            background: #ccc;
-            color: #333;
-            border-radius: 3px;
-            font-size: 1.1rem;
-            padding: 0.4rem 0.2rem;
-            font-weight: 600;
-        }
     </style>
 </head>
 
 <body>
     <header>
         <h1>
-            <a href="index.html">Chordflow</a>
+            <a href="/">Chordflow</a>
         </h1>
     </header>
     <article>
@@ -121,14 +89,15 @@
                             }
                             return array.join(' ');
                         }
-                        const keyName = ['C/Am', 'C#/A#m', 'D/Bm', 'Eb/Cm', 'E/C#m', 'F/Dm', 'Gb/Ebm', 'G/Em', 'Ab/Fm', 'A/F#m', 'Bb/Gm', 'B/G#m'];
+                        const keyName = ['C/Am', 'Db/Bbm', 'D/Bm', 'Eb/Cm', 'E/C#m', 'F/Dm', 'Gb/Ebm', 'G/Em', 'Ab/Fm', 'A/F#m', 'Bb/Gm', 'B/G#m'];
 
                         let similarityArray = [];
                         for (let i = 0; i < data.length; i++) {
                             // 同じ曲の参照を除外
                             if (song1 != i) {
                                 const s = similarity(song1Data, data[i]);
-                                const text = `<div class="result-song"><div class="similarity">類似度: ${s.toFixed(4)}</div><div class="head"><div class="title">${data[i].title}</div><div class="slash">/</div><div class="artist">${data[i].artist}</div></div><div class="chord-block"><div class="progression">${parseChord(data[i].chord)}</div><div class="key">(Key = ${keyName[data[i].key]})</div></div><div class="rank-block"><div class="rank">XXXX年: XX位</div></div></div>`;
+                                const rank = data[i].ranks.join(' / ');
+                                const text = `<div class="result-song"><div class="similarity">類似度: ${s.toFixed(3)}</div><div class="head"><div class="title">${data[i].title}</div><div class="slash">-</div><div class="artist">${data[i].artist}</div></div><div class="chord-block"><div class="progression">${parseChord(data[i].chord)}</div><div class="key">(Key = ${keyName[data[i].key]})</div></div><div class="rank-block"><div class="rank">${rank}</div></div></div>`;
                                 similarityArray.push({ "similarity": s, "text": text });
                             }
                         }
@@ -137,10 +106,11 @@
                             if (a.similarity < b.similarity) return 1;
                             return 0;
                         });
-                        let resultHTML = `<div id="song1-info"><div class="similarity">比較対象の曲</div><div class="head"><div class="title">${song1Data.title}</div><div class="slash">/</div><div class="artist">${song1Data.artist}</div></div><div class="chord-block"><div class="progression">${parseChord(song1Data.chord)}</div><div class="key">(Key = ${keyName[song1Data.key]})</div></div><div class="rank-block"><div class="rank">XXXX年: XX位</div></div></div><hr>`;
+                        let resultHTML = `<div id="song1-info"><div class="similarity">比較対象の曲</div><div class="head"><div class="title">${song1Data.title}</div><div class="slash">-</div><div class="artist">${song1Data.artist}</div></div><div class="chord-block"><div class="progression">${parseChord(song1Data.chord)}</div><div class="key">(Key = ${keyName[song1Data.key]})</div></div><div class="rank-block"><div class="rank">${song1Data.ranks.join(' / ')}</div></div></div><hr><div class="result-list">`;
                         for (let i = 0; i < similarityArray.length; i++) {
                             resultHTML += similarityArray[i].text;
                         }
+                        resultHTML += '</div>';
                         console.log('配列', similarityArray);
                         document.getElementById('result').innerHTML = resultHTML;
                         document.getElementById('result').style.display = 'block';
