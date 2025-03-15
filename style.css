@@ -203,11 +203,12 @@ div.result-list {
     flex-wrap: wrap;
     align-items: baseline;
     margin: 0;
+    max-height: 2em;
+    overflow: hidden;
 }
 
 .title {
     font-size: 1.2rem;
-    max-width: 60%;
     margin: 0;
 }
 
