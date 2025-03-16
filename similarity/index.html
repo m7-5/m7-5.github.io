@@ -76,9 +76,8 @@
           // song1とsong2が0以上の整数かどうかを判定して分岐処理を実行
           if (Number(result) != 1) {
             //何もしない
-          } else if (Number.isInteger(Number(song1)) && Number(song1) >= 0 &&
-            Number.isInteger(Number(song2)) && Number(song2) >= 0 && Number(song1) != Number(song2)) {
-            console.log('song1 and song2 are both non-negative integers:', song1, song2);
+          } else if (data.find(song => song.id === Number(song2)) && data.find(song => song.id === Number(song2))) {
+            console.log('song1 and song2 are available', song1, song2);
 
             // 0以上の整数の場合の処理
             // list.json内のidとsong1を一致させて、chordを取得
@@ -117,6 +116,9 @@
               document.getElementById('back').style.display = 'block';
             } else {
               console.error('No song found with the provided song1 ID');
+            document.getElementById('select').style.display = 'none';
+            document.getElementById('error').style.display = 'block';
+            document.getElementById('back').style.display = 'block';
             }
 
           } else {

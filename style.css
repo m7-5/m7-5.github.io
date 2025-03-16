@@ -186,15 +186,15 @@ div.result-list {
 }
 
 .result-song {
-    width: calc(50% - 0.5rem);
-    min-width: min(100%, 480px);
+    width: 420px;
+    flex-grow: 1;
 }
 
-#result-song1 div,
-#result-song2 div,
-#song1-info div ,
-#song2-info div ,
-.result-song div {
+#result-song1 > div,
+#result-song2 > div,
+#song1-info > div ,
+#song2-info > div ,
+.result-song > div {
     margin: 0;
 }
 
@@ -229,15 +229,20 @@ div.result-list {
 
 .progression {
     font-size: 1.2rem;
+    margin: 0;
 }
 
 .key {
-    margin-left: 0.8rem;
+    margin: 0 0 0 0.8rem;
 }
 
 .rank-block {
     /* display: flex; */
     margin: 0.2rem 0;
+}
+
+.rank {
+    margin: 0;
 }
 
 hr {

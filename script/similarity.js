@@ -6,7 +6,7 @@ function similarity(song1, song2) {
     if (num === null) return null;
 
     num += i + (onmei.includes('#') ? 1 : 0) - (onmei.includes('b') ? 1 : 0);
-    return num % 12;
+    return (num + 24) % 12;
   }
 
   const parseTriad = (chordName) => {
@@ -34,14 +34,17 @@ function similarity(song1, song2) {
 
       const pattern = Object.keys(PATTERN_MAP).find(key => baseChord.includes(key)) || 'default';
       PATTERN_MAP[pattern].forEach((interval, index) => {
-        count[parseNum(baseChord.replace(pattern, ''), t + interval)] += index === 0 ? 2 : 1; // ルート音だけ2カウント
+        count[parseNum(baseChord.replace(pattern, ''), t + interval)] += 1; // ルート音だけ2カウント
       });
     } else {
       // 分数コード以外の場合
       const pattern = Object.keys(PATTERN_MAP).find(key => chordName.includes(key)) || 'default';
       PATTERN_MAP[pattern].forEach((interval, index) => {
-        count[parseNum(chordName.replace(pattern, ''), t + interval)] += index === 0 ? 2 : 1; // ルート音だけ2カウント
+        count[parseNum(chordName.replace(pattern, ''), t + interval)] += 1; // ルート音だけ2カウント
       });
+    }
+    if (count.reduce((sum, x) => sum + x ** 2, 0) == 0) {
+      console.log(chordName, t + 'の大きさは0でした。')
     }
 
     return count;
@@ -50,36 +53,34 @@ function similarity(song1, song2) {
   const chordSimilarity = (chord1, chord2, t) => {
     const kousei1 = kouseion(chord1, 0);
     const kousei2 = kouseion(chord2, t);
-    return 1 - Math.sqrt(kousei1.reduce((sum, count, i) => sum + (count - kousei2[i]) ** 2, 0) / 12);
+    const k1Size = Math.sqrt(kousei1.reduce((sum, count) => sum + count ** 2, 0)); // ベクトルkousei1の大きさ
+    const k2Size = Math.sqrt(kousei2.reduce((sum, count) => sum + count ** 2, 0)); // ベクトルkousei2の大きさ
+    const dotProduct = kousei1.reduce((sum, count, i) => sum + count * kousei2[i], 0); // ベクトルkousei1, kousei2の内積
+    // console.log(k1Size, k2Size, dotProduct);
+    // return 1 - Math.sqrt(kousei1.reduce((sum, count, i) => sum + (count - kousei2[i]) ** 2, 0) / 12);
+    return dotProduct / ( k1Size * k2Size );
   }
 
   const chordProgressionSimilarity = (a, b) => {
     // 空白（''）を前のコードで埋める処理
-    const filledChordP1 = a.chord.map((chord, i) => {
-      let transposed = '';
-      if (chord !== '') {
-        transposed = chord;
-      };
-      if (i > 0) {
-        transposed = a.chord[i - 1]
-      };
-      return transposed;
-    });
-
-    const filledChordP2 = b.chord.map((chord, i) => {
-      let transposed = '';
-      if (chord !== '') {
-        transposed = chord;
-      };
-      if (i > 0) {
-        transposed = b.chord[i - 1]
-      };
-      return transposed;
-    });
-
+    let aFixed = [];
+    let bFixed = [];
+    for (let i = 0; i < a.chord.length; i++) {
+      aFixed[i] = a.chord[i];
+      if (aFixed[i] == '' && i > 0) {
+        aFixed[i] = aFixed[i - 1];
+      }
+    }
+    for (let i = 0; i < b.chord.length; i++) {
+      bFixed[i] = b.chord[i];
+      if (bFixed[i] == '' && i > 0) {
+        bFixed[i] = bFixed[i - 1];
+      }
+    }
     const t = a.key - b.key;
-
-    return filledChordP1.reduce((sum, chord, i) => sum + chordSimilarity(chord, filledChordP2[i], t), 0) / filledChordP1.length;
+    console.log(a.title, aFixed);
+    console.log(b.title, bFixed);
+    return aFixed.reduce((sum, chord, i) => sum + chordSimilarity(chord, bFixed[i], t), 0) / aFixed.length;
   }
 
   const a = song1;
